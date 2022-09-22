@@ -1,6 +1,6 @@
 const somethingWillHappen = () => {
 return new Promise((resolve, reject)=> {
-    if (false){
+    if (true){
         resolve('Hey! se resolvió')
     }
     else{
