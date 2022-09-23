@@ -1,16 +1,32 @@
-const fetchData = require('../utils/fetchData');
-const API = 'https://rickandmortyapi.com/api/character/';
+import fetch from 'node-fetch';
+const API = 'https://api.escuelajs.co/api/v1';
 
-fetchData(API)
-.then(data => {
-    console.log(data.info.count);
-    return fetchData(`${API}${data.results[0].id}`)
-})
-.then(data => {
-    console.log(data.name)
-    return fetchData(data.origin.url)
-})
-.then (data => {
-    console.log(data.dimension)
-})
-.catch(err => console.error(err))
+function fetchData(urlApi){
+    return fetch(urlApi);
+}
+
+// fetchData(`${API}/products`)
+//     .then(response => response.json())
+//     .then (products => {
+//         console.log(products);
+//     })
+//     .then( ()=>{
+//         console.log('Hola')
+//     })
+//     .catch(error => console.log(error));
+
+fetchData(`${API}/products`)
+ .then(response => response.json())
+ .then(products => {
+    return fetchData(`${API}/products/${products[0].id}`)
+ })
+ .then (response => response.json())
+ .then(product => {
+    return fetchData(`${API}/categories/${product.category.id}`)
+ })
+ .then(response => response.json())
+ .then (category => {
+    console.log(category.name)
+ })
+ .catch(error => console.log(error))
+ .finally(()=>console.log('Finally'))
